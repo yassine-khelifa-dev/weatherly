@@ -1,8 +1,11 @@
+import WeatherDetailsPage from "./pages/ WeatherDetailsPage";
+import  "./App.css"
 function App() {
   return (
     <>
-      <h1>App: Weatherly</h1>
+
+        <WeatherDetailsPage />
     </>
-  )
+  );
 }
-export default App
+export default App;
