@@ -5,9 +5,10 @@ import Button from "@mui/material/Button";
 import GTranslateIcon from "@mui/icons-material/GTranslate";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import moment from "moment";
 
 type TempType = {
-  name: string
+  name: string;
   number: number;
   min: number;
   max: number;
@@ -16,9 +17,12 @@ type TempType = {
 };
 
 export default function WeatherDetailsPage() {
+  const [dateAndTime, setDateAndTime] = useState("");
   const [temp, setTemp] = useState<TempType | null>();
 
   useEffect(() => {
+    setDateAndTime(moment().format("MMMM Do YYYY, h:mm a"));
+
     const getData = async () => {
       axios
         .get(
@@ -132,7 +136,7 @@ export default function WeatherDetailsPage() {
                 component="h2"
                 style={{ marginLeft: "15px" }}
               >
-                Sun 26
+                {dateAndTime}
               </Typography>
             </div>
 
@@ -151,7 +155,6 @@ export default function WeatherDetailsPage() {
                   style={{ marginLeft: "5px" }}
                 >
                   {temp.number}°
-                  
                   <img
                     src={`https://openweathermap.org/img/wn/${temp.icon}@2x.png`}
                     alt={temp.description}
