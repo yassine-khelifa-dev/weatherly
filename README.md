@@ -1,75 +1,144 @@
-# React + TypeScript + Vite
+# Weather App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A responsive weather application built with React and TypeScript.
 
-Currently, two official plugins are available:
+The application allows users to search for a city and display its current weather information. It includes optimized API requests with debounced search, loading and error states, multilingual support, and local time based on the selected city's timezone.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Summary
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- [Features](#features)
+- [Technologies](#technologies)
+- [Weather Search](#weather-search)
+- [Debounced Search](#debounced-search)
+- [Loading State](#loading-state)
+- [Error Handling](#error-handling)
+- [Multilingual Support](#multilingual-support)
+- [City Local Time](#city-local-time)
+- [Request Flow](#request-flow)
+- [Screenshots](#screenshots)
+- [Project Structure](#project-structure)
+- [Environment Variables](#environment-variables)
+- [Installation](#installation)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Features
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Search weather by city name
+- Display current temperature
+- Display minimum and maximum temperature
+- Display weather condition
+- Display weather icon
+- Display local date and time for the selected city
+- English and Arabic language support
+- RTL and LTR layout support
+- Debounced search to reduce unnecessary API requests
+- Loading state while fetching weather data
+- Keep the previous successful weather result visible while loading a new city
+- Error handling for invalid city searches
+- Keep the last successful result visible when a new search fails
+- Responsive interface using Material UI
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Technologies
 
-```
+- **React** - UI and component-based architecture
+- **TypeScript** - static typing
+- **Vite** - development and build tool
+- **Material UI (MUI)** - UI components and styling
+- **Axios** - HTTP requests
+- **OpenWeather API** - weather data
+- **i18next**
+- **react-i18next** - internationalization
+- **Moment.js** - date and time formatting
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Weather Search
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+The user can type a city name into the search field.
 
-```
+The application sends a request to the OpenWeather API and displays:
+
+- City name
+- Current temperature
+- Minimum temperature
+- Maximum temperature
+- Weather description
+- Weather icon
+- Local date and time
+
+---
+
+## Debounced Search
+
+The search input uses a debounce mechanism to reduce unnecessary API requests.
+
+For example, when the user types:
+
+`L` → `Lo` → `Lon` → `Lond` → `London`
+
+the application does not immediately send a request after every character.
+
+Instead, it waits for a short delay after the user stops typing before starting the API request.
+
+This reduces the number of requests sent to the weather API and improves the search behavior.
+
+---
+
+## Loading State
+
+The application manages a loading state while requesting weather information.
+
+If weather data already exists, the previous result remains visible while the new city is being loaded.
+
+Example:
+
+1. The user searches for **Milan**.
+2. Milan weather is displayed.
+3. The user searches for **New York**.
+4. A loading indicator is displayed.
+5. Milan weather remains visible during the request.
+6. When the request succeeds, Milan is replaced by New York.
+
+This prevents the interface from becoming empty during every new request.
+
+---
+
+## Error Handling
+
+The application handles failed or invalid city searches.
+
+Example:
+
+1. New York weather is currently displayed.
+2. The user searches for an invalid city.
+3. The API request fails.
+4. An error message is displayed.
+5. The previous successful New York weather remains visible.
+
+This keeps the interface stable while informing the user that the new search failed.
+
+---
+
+## Multilingual Support
+
+The application supports:
+
+- English
+- Arabic
+
+Internationalization is implemented using:
+
+- `i18next`
+- `react-i18next`
+
+The document direction also changes depending on the selected language.
+
+For English:
+
+```text
+LTR

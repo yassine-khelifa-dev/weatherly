@@ -1,8 +1,3 @@
-/* =========================
-   Helper
-   Only for testing loading
-========================= */
-
 import axios from "axios";
 import type { WeatherType } from "../types/weather";
 
@@ -10,13 +5,15 @@ const delay = (ms: number) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
+const API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
+
 export async function fetchWeather(city: string): Promise<WeatherType> {
   // Only for testing the loading UI.
   // Remove this later.
   await delay(700);
 
   const response = await axios.get(
-    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=6a4aa22e0779478dd1502914c88fbd34`,
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`,
   );
 
   return {
