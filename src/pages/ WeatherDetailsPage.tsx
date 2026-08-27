@@ -5,7 +5,9 @@ import Button from "@mui/material/Button";
 import GTranslateIcon from "@mui/icons-material/GTranslate";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import moment from "moment";
+import { useTranslation } from "react-i18next";
+import moment from "moment/min/moment-with-locales";
+import "moment/locale/ar.js";
 
 type TempType = {
   name: string;
@@ -16,17 +18,26 @@ type TempType = {
   icon: string;
 };
 
+type UiLanguge = "en" | "ar";
+
 export default function WeatherDetailsPage() {
-  const [dateAndTime, setDateAndTime] = useState("");
+  const { t, i18n } = useTranslation();
+  const [lang, setLang] = useState<UiLanguge>("ar");
   const [temp, setTemp] = useState<TempType | null>();
 
-  useEffect(() => {
-    setDateAndTime(moment().format("MMMM Do YYYY, h:mm a"));
+  const dateAndTime = moment().locale(lang).format("MMMM Do YYYY, h:mm a");
 
+  useEffect(() => {
+    i18n.changeLanguage(lang);
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    document.documentElement.lang = lang;
+  }, [lang]);
+
+  useEffect(() => {
     const getData = async () => {
       axios
         .get(
-          "https://api.openweathermap.org/data/2.5/weather?q=Singapore&appid=6a4aa22e0779478dd1502914c88fbd34",
+          "https://api.openweathermap.org/data/2.5/weather?q=milano&appid=6a4aa22e0779478dd1502914c88fbd34",
         )
         .then((response) => {
           console.log(Math.round(response.data.main.temp - 273.15));
@@ -70,35 +81,40 @@ export default function WeatherDetailsPage() {
             padding: "10px 0px",
           }}
         >
-          <Button
-            variant="text"
-            style={{
-              color: "gray",
-              fontSize: "16px",
-            }}
-          >
-            Fr{"  "}
-            <GTranslateIcon
+          {lang === "ar" && (
+            <Button
+              variant="text"
               style={{
-                fontSize: "20px",
+                color: "gray",
+                fontSize: "16px",
               }}
-            />{" "}
-          </Button>
-
-          <Button
-            variant="text"
-            style={{
-              color: "gray",
-              fontSize: "16px",
-            }}
-          >
-            It{"  "}
-            <GTranslateIcon
+              onClick={() => setLang("en")}
+            >
+              ENGLISH{"  "}
+              <GTranslateIcon
+                style={{
+                  fontSize: "20px",
+                }}
+              />{" "}
+            </Button>
+          )}
+          {lang === "en" && (
+            <Button
+              variant="text"
               style={{
-                fontSize: "20px",
+                color: "gray",
+                fontSize: "16px",
               }}
-            />{" "}
-          </Button>
+              onClick={() => setLang("ar")}
+            >
+              ARABIC{"  "}
+              <GTranslateIcon
+                style={{
+                  fontSize: "20px",
+                }}
+              />{" "}
+            </Button>
+          )}
         </div>
 
         {/* Card */}
@@ -128,7 +144,7 @@ export default function WeatherDetailsPage() {
                 component="h2"
                 style={{ marginLeft: "5px" }}
               >
-                {temp.name}
+                {t(temp.name)}
               </Typography>
 
               <Typography
@@ -157,12 +173,12 @@ export default function WeatherDetailsPage() {
                   {temp.number}°
                   <img
                     src={`https://openweathermap.org/img/wn/${temp.icon}@2x.png`}
-                    alt={temp.description}
+                    alt={t(`weather.${temp.description}`)}
                   />
                 </Typography>
 
                 <Typography variant="h5" component="h5">
-                  {temp.description}
+                  {t(`weather.${temp.description}`)}
                 </Typography>
 
                 <div
@@ -172,9 +188,13 @@ export default function WeatherDetailsPage() {
                     gap: "1px",
                   }}
                 >
-                  <h5>heighest: {temp.max}°</h5>
+                  <h5>
+                    {t("highest")}: {temp.max}°
+                  </h5>
                   <h5>|</h5>
-                  <h5>lowest: {temp.min}°</h5>
+                  <h5>
+                    {t("lowest")}: {temp.min}°
+                  </h5>
                 </div>
               </div>
 
