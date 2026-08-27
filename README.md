@@ -21,6 +21,7 @@ The application allows users to search for a city and display its current weathe
 - [Project Structure](#project-structure)
 - [Environment Variables](#environment-variables)
 - [Installation](#installation)
+- [Screenshots](#screenshots)
 
 ---
 
@@ -124,6 +125,40 @@ This keeps the interface stable while informing the user that the new search fai
 
 ---
 
+## Screenshots
+
+The screenshots below demonstrate the main application states and request flow.
+
+### 1. Milan - Successful Search
+
+The user searches for **Milan** and the current weather information is displayed.
+
+![Milan Weather](./screenshots/01-milan.png)
+
+### 2. New York - Loading State
+
+The user searches for **New York**.
+
+While the new request is loading, the application keeps the previous Milan weather result visible and displays a loading indicator.
+
+![Loading New York](./screenshots/02-loading-new-york.png)
+
+### 3. New York - Successful Result
+
+After the API request succeeds, the New York weather data replaces the previous Milan result.
+
+![New York Weather](./screenshots/03-new-york.png)
+
+### 4. Invalid City - Error State
+
+The user searches for an invalid city.
+
+The application displays an error message while keeping the last successful New York weather result visible.
+
+![Invalid City Search](./screenshots/04-error.png)
+
+---
+
 ## Multilingual Support
 
 The application supports:
@@ -142,3 +177,5 @@ For English:
 
 ```text
 LTR
+
+```
