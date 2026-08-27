@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
-import WeatherDetailsPage from "./ WeatherDetailsPage";
-import SearchIcon from "@mui/icons-material/Search";
-import {
-  Box,
-  InputAdornment,
-  TextField,
-} from "@mui/material";
+import { Box } from "@mui/material";
+import Searach from "../components/Search";
+import WeatherContent from "../components/WeatherContent";
 
 export default function HomePage() {
   const [city, setCity] = useState("Milano");
@@ -21,7 +17,6 @@ export default function HomePage() {
 
   return (
     <>
-  
       <Box
         sx={{
           width: "100%",
@@ -34,49 +29,9 @@ export default function HomePage() {
           gap: 3,
         }}
       >
-        <TextField
-          placeholder="Search city..."
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          fullWidth
-          slotProps={{
-            input: {
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon sx={{ color: "white" }} />
-                </InputAdornment>
-              ),
-            },
-          }}
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              height: "58px",
-              color: "white",
-              fontSize: "1.1rem",
-              borderRadius: "14px",
-              backgroundColor: "rgba(255,255,255,0.08)",
+        <Searach city={city} setCity={setCity} />
 
-              "& fieldset": {
-                borderColor: "rgba(255,255,255,0.35)",
-              },
-
-              "&:hover fieldset": {
-                borderColor: "white",
-              },
-
-              "&.Mui-focused fieldset": {
-                borderColor: "white",
-              },
-            },
-
-            "& input::placeholder": {
-              color: "rgba(255,255,255,0.7)",
-              opacity: 1,
-            },
-          }}
-        />
-
-        <WeatherDetailsPage city={deboundedCity} />
+        <WeatherContent city={deboundedCity} />
       </Box>
     </>
   );
